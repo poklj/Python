@@ -1,1 +1,0 @@
-mongodb://student:mongoose@172.16.176.30:27017/movieDB
