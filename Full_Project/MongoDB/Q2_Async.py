@@ -1,5 +1,6 @@
 import MongoDB.Mongo as mong
 from pprint import pprint
+import asyncio
 
 # [35%] Are the older people more grumpy?
 # Print the average scores given by users of age N or over, and those below N,  where N takes values, 30, 40, 45, 50.
@@ -49,7 +50,7 @@ def count(Llist):
 
     return count
 
-def GrabRatings(List):
+async def GrabRatings(List):
     """
     Grab the ratings of every User
     :param List: User List
@@ -103,11 +104,16 @@ if __name__ == '__main__':
     countUpper = count(upper)
     countLower = count(lower)
 
-    rUpper = GrabRatings(upper)
-    rLower = GrabRatings(lower)
+    loop = asyncio.get_event_loop()
+    tasks = {
+        asyncio.ensure_future(GrabRatings(upper)),
+        rLower = GrabRatings(lower)
+    }
 
     aUpper = avg(count=countUpper, rating=rUpper)
     aLower = avg(count=countLower, rating=rLower)
+
+
 
     print(aUpper)
     print(aLower)
