@@ -7,8 +7,8 @@ from pprint import pprint
 
 def grabUsers():
     """
-
-    :return:
+	Grab the ENTIRE user list Database
+    :return: List appeneded userlist
     """
     userlist = []
 
@@ -29,7 +29,7 @@ def userSplit(nAge, userlist):
     for i in userlist:
         if (i.get('age') >= nAge):
             upper.append(i)
-        elif (i.get('age') <= nAge):
+        elif (i.get('age') < nAge):
             lower.append(i)
     compiledList = []
     compiledList.append(upper)
@@ -49,39 +49,62 @@ def count(Llist):
 
     return count
 
-def GrabRatings(List):
-    """
-    Grab the ratings of every User
-    :param List: User List
-    :return: List of ratings
-    """
+# def GrabRatings(List):
+#     """
+#     Grab the ratings of every User
+#     :param List: User List
+#     :return: List of ratings
+#     """
+#     ratingL = []
+#     for i in List:
+#         a = ratings.find({
+#             'user_id': i.get('_id')
+#         })
+#         #print(a)
+#         for i in a:
+#             ratingL.append(i.get('rating'))
+#             #print(i)
+#
+#     return ratingL
+
+def GrabRatingsv2(List):
+	"""
+	use the Entire Ratings list to find the average of the user 
+	:param List: the userlist
+	:return: The Ratings list appened with the ratings of every user
+	"""
+
     ratingL = []
+
+    RatingsList = ratings.find({})
     for i in List:
-        a = ratings.find({
-            'user_id': i.get('_id')
-        })
-        print(a)
-        for i in a:
-            ratingL.append(i.get('rating'))
-            print(i)
+        for x in RatingsList:
+            #print(x)
+            if i.get('_id') == x.get('user_id'):
+                ratingL.append(x.get('rating'))
+                #print(ratingL)
 
     return ratingL
 
-def avg(rating, count):
-    """
-    Calculate the Average Rating of the list
-    :param List: Userlist
-    :return: The average
-    """
-    count = count(list)
-    ratings = GrabRatings(list)
+def avg(rating, count=0):
+	"""
+	
+	:param: Deprecated
+	:param rating: The rating list
+	:return: Average
+	"""
 
-    fullrating = 0
-    for i in count:
-        ratings += i
+    a = 0
+    if len(rating):
+        b = len(rating)
+    else:
+        b = 1
 
-    return (fullrating/count)
-
+    for i in rating:
+        a += i
+    return (a/b)
+# For i in each User Check Rating User ID
+    # if True, append Rating
 
 
 if __name__ == '__main__':
@@ -93,9 +116,27 @@ if __name__ == '__main__':
     ratings = db.ratings
     users = db.users
 
+    while True:
+        try:
+            age = input("Input user Age to split by ")
+            try:
+                null = float(age)
+            except:
+                raise ValueError
+            if age is str:
+                raise ValueError
+            if age is tuple:
+                raise ValueError
+            if age is list:
+                raise ValueError
+            print("Working...")
+            break
+        except ValueError:
+            print("Please Input a Age")
+
     userL = grabUsers()
     # pprint(userL)
-    splitCompile = userSplit(50, userL)
+    splitCompile = userSplit(float(age), userL)
 
     upper = splitCompile[0]
     lower = splitCompile[1]
@@ -103,14 +144,14 @@ if __name__ == '__main__':
     countUpper = count(upper)
     countLower = count(lower)
 
-    rUpper = GrabRatings(upper)
-    rLower = GrabRatings(lower)
+    rUpper = GrabRatingsv2(upper)
+    rLower = GrabRatingsv2(lower)
 
     aUpper = avg(count=countUpper, rating=rUpper)
     aLower = avg(count=countLower, rating=rLower)
 
-    print(aUpper)
-    print(aLower)
+    print('The average rating of people aged {0} and above is: {1}'.format(age, aUpper))
+    print('The average rating of people aged {0} and below is: {1}'.format(age, aLower))
     #upperCount = count(upper)
     #lowerCount = count(lower)
 

@@ -4,7 +4,7 @@ from pymongo import MongoClient as Mongo
 class Data:
     def __init__(self):
         """
-
+		Connect To MongoDB
         :param ip: Ip to connect too
         :param port: Port for connection
         """
@@ -17,6 +17,10 @@ class Data:
             pass
         self.Database = self.client.movieDB
         # self.Collection1 = self.Database.
+
+
+
+
 
 
 def Main():

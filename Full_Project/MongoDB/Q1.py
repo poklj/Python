@@ -5,7 +5,12 @@ from pprint import pprint
 # Accept (numeric) user_id interactively, quit when none is given.
 
 
-def introLine():
+def introLine():\
+	"""
+	Return back an Intro line
+	:return: Pure printout
+	"""
+	
     print("\t ***** Pymongo Movie Ratings ***** \n"
           "\t  Enter a User_id to display the movies they have rated\n"
           "\t  if finished press [ENTER] without typing anything\n")
@@ -35,7 +40,7 @@ def grabUID(uid):
 
 def find_Pairs(list):
     """
-
+	Match pairs of Movie Id's from the list
     :param list: InfoList
     :return: the matching pair from a Peice from InfoList
     """
